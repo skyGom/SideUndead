@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D rigid;
     private SpriteRenderer sprite;
     private Animator animator;
+    private PhotonView photonView;
 
     private void Awake()
     {
@@ -19,6 +21,7 @@ public class Player : MonoBehaviour
         rigid = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        photonView = GetComponent<PhotonView>();
     }
 
     // Start is called before the first frame update
@@ -47,15 +50,20 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         animator.SetFloat("Speed", inputVec.magnitude);
-
-        if (inputVec.x != 0)
-        {
-            sprite.flipX = inputVec.x < 0;
-        }
+        photonView.RPC("filp", RpcTarget.All);
     }
 
     void OnMove(InputValue value)
     {
         inputVec = value.Get<Vector2>();
+    }
+
+    [PunRPC]
+    private void flip()
+    {
+        if (inputVec.x != 0)
+        {
+            sprite.flipX = inputVec.x < 0;
+        }
     }
 }

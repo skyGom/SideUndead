@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Follow : MonoBehaviour
 {
-    private RectTransform rect;
+    RectTransform rect;
 
-    void Start()
+    void Awake()
     {
         rect = GetComponent<RectTransform>();
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
         rect.position = Camera.main.WorldToScreenPoint(GameManager.instance.Player.transform.position);
     }

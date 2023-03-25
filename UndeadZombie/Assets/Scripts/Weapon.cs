@@ -8,17 +8,12 @@ public class Weapon : MonoBehaviour
     public float Damage;
     public float Speed;
 
-    private float timer;
-    private Player player;
+    float timer;
+    Player player;
 
-    private void Awake()
+    void Awake()
     {
-        player = GetComponentInParent<Player>();
-    }
-
-    private void Start()
-    {
-        Init();
+        player = GameManager.instance.Player;
     }
 
     void Update()
@@ -40,21 +35,44 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Init(ItemData data)
     {
+        // basic set
+        name = "Weapon " + data.itemId;
+        transform.parent = player.transform;
+        transform.localPosition = Vector3.zero;
+
+        //property set
+        Id = data.itemId;
+        Damage = data.baseDamage;
+        Count = data.baseCount;
+
+        for(int index=0; index < GameManager.instance.pool.Prefabs.Length; index++){
+            if(data.projectile == GameManager.instance.pool.Prefabs[index]){
+                PrefabId = index;
+                break;
+            }
+        }
+
         switch (Id)
         {
             case 0:
                 Speed = 150;
-                SetWeapon();
+                Batch();
                 break;
             default:
-                Speed = 0.3f;
+                Speed = 0.4f;
                 break;
         }
+        //Hand Set
+        Hand hand = player.hands[(int)data.itemType];
+        hand.spriter.sprite = data.hand;
+        hand.gameObject.SetActive(true);
+
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
-    private void SetWeapon()
+    private void Batch()
     {
         for (int i = 0; i < Count; i++)
         {
@@ -66,7 +84,7 @@ public class Weapon : MonoBehaviour
             }
             else
             {
-                bullet = GameManager.instance.PoolManager.GetPool(PrefabId).transform;
+                bullet = GameManager.instance.pool.GetPool(PrefabId).transform;
                 bullet.parent = transform;
             }
 
@@ -88,8 +106,9 @@ public class Weapon : MonoBehaviour
 
         if (Id == 0)
         {
-            SetWeapon();
+            Batch();
         }
+        player.BroadcastMessage("ApplyGear", SendMessageOptions.DontRequireReceiver);
     }
 
     private void Fire()
@@ -101,7 +120,7 @@ public class Weapon : MonoBehaviour
         Vector3 dir = targetPos - transform.position;
         dir = dir.normalized;
 
-        Transform bullet = GameManager.instance.PoolManager.GetPool(PrefabId).transform;
+        Transform bullet = GameManager.instance.pool.GetPool(PrefabId).transform;
         bullet.position = transform.position;
         bullet.rotation = Quaternion.FromToRotation(Vector3.up, dir);
         bullet.GetComponent<Bullet>().Init(Damage, Count, dir);

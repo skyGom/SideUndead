@@ -21,12 +21,12 @@ public class HUD : MonoBehaviour
         {
             case InfoType.Exp:
                 float curExp = GameManager.instance.Exp;
-                float maxExp = GameManager.instance.NextExp[GameManager.instance.level];
+                float maxExp = GameManager.instance.NextExp[GameManager.instance.Level];
 
                 mySlider.value = curExp  / maxExp;
                 break;
             case InfoType.Level:
-                myText.text = string.Format("Lv.{0:F0}", GameManager.instance.level);
+                myText.text = string.Format("Lv.{0:F0}", GameManager.instance.Level);
                 break;
             case InfoType.Kill:
                 myText.text = string.Format("{0:F0}", GameManager.instance.Kill);
@@ -39,8 +39,8 @@ public class HUD : MonoBehaviour
                 myText.text = string.Format("{0:D2}:{1:D2}", min, sec);
                 break;
             case InfoType.Health:
-                float curHealth = GameManager.instance.health;
-                float maxHealth = GameManager.instance.maxHealth;
+                float curHealth = GameManager.instance.Health;
+                float maxHealth = GameManager.instance.MaxHealth;
 
                 mySlider.value = curHealth / maxHealth;
                 break;

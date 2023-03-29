@@ -6,10 +6,8 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
- 
     public float speed = 3f;
     public Scanner Scanner;
-    public Hand[] hands;
 
     [HideInInspector]public Vector2 inputVec;
     private Rigidbody2D rigid;
@@ -24,7 +22,6 @@ public class Player : MonoBehaviour
         sprite = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         photonView = GetComponent<PhotonView>();
-        hands = GetComponentsInChildren<Hand>(true);
     }
 
     // Start is called before the first frame update
@@ -53,7 +50,6 @@ public class Player : MonoBehaviour
     private void LateUpdate()
     {
         animator.SetFloat("Speed", inputVec.magnitude);
-        flip();
         photonView.RPC("filp", RpcTarget.All);
     }
 

@@ -11,15 +11,15 @@ public class GameManager : MonoBehaviour
     public float MaxGameTime;
 
     [Header("# Player Info")]
-    public int health;
-    public int maxHealth = 100;
-    public int level;
+    public int Health;
+    public int MaxHealth = 100;
+    public int Level;
     public int Kill;
     public int Exp;
-    public int[] NextExp = {10, 30, 60, 100, 150, 210, 280, 360, 3450, 600, 800};
+    public int[] NextExp = {10, 30, 60, 100, 150, 210, 280, 360, 3450, 600};
 
     [Header("# Game Object")]
-    public PoolManager pool;
+    public PoolManager PoolManager;
     public Player Player;
 
     private void Awake()
@@ -39,17 +39,17 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        health = maxHealth;
+        Health = MaxHealth;
     }
 
     public void GetExp()
     {
         Exp++;
-        if (Exp == NextExp[level])
+
+        if (Exp == NextExp[Level])
         {
-            level++;
+            Level++;
             Exp = 0;
         }
-
     }
 }

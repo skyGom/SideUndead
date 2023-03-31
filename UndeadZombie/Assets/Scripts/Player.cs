@@ -36,6 +36,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(!GameManager.instance.isLive) //시간 멈춤
+            return;
         inputVec.x = Input.GetAxisRaw("Horizontal");
         inputVec.y = Input.GetAxisRaw("Vertical");
     }
@@ -46,12 +48,16 @@ public class Player : MonoBehaviour
 
         //rigid.velocity = inputVec;
 
+        if(!GameManager.instance.isLive) //시간 멈춤
+            return;
         Vector2 nextVec = inputVec * speed * Time.fixedDeltaTime;
         rigid.MovePosition(rigid.position + nextVec);
     }
 
     private void LateUpdate()
     {
+        if(!GameManager.instance.isLive) //시간 멈춤
+            return;
         animator.SetFloat("Speed", inputVec.magnitude);
         flip();
         photonView.RPC("filp", RpcTarget.All);

@@ -40,6 +40,8 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if(!GameManager.instance.isLive) //시간 멈춤
+            return;
         if (!isLive || animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             return;
 
@@ -51,6 +53,8 @@ public class Enemy : MonoBehaviour
 
     private void LateUpdate()
     {
+        if(!GameManager.instance.isLive) //시간 멈춤
+            return;
         if (!isLive)
             return;
 

@@ -12,6 +12,7 @@ public class ItemData : ScriptableObject
     public ItemType itemType;
     public int itemId;
     public string itemName;
+    [TextArea] // 2줄 이상 넣기
     public string itemDesc;
     public Sprite itemIcon;
 

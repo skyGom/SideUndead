@@ -18,6 +18,8 @@ public class Weapon : MonoBehaviour
 
     void Update()
     {
+        if(!GameManager.instance.isLive) //시간 멈춤
+            return;
         switch (Id)
         {
             case 0:

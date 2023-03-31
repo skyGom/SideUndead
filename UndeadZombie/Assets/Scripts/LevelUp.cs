@@ -54,8 +54,9 @@ public class LevelUp : MonoBehaviour
             // 민랩 아이템 경우 소비아이템으로 대체
             if(ranItem.level == ranItem.data.damages.Length){
                 items[4].gameObject.SetActive(true);
+            }else{
+                ranItem.gameObject.SetActive(true);
             }
-            ranItem.gameObject.SetActive(true);
         }
 
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,8 +13,8 @@ public class GameManager : MonoBehaviour
     public float MaxGameTime;
 
     [Header("# Player Info")]
-    public int health;
-    public int maxHealth = 100;
+    public float health;
+    public float maxHealth = 100;
     public int level;
     public int Kill;
     public int Exp;
@@ -23,6 +24,8 @@ public class GameManager : MonoBehaviour
     public PoolManager pool;
     public Player Player;
     public LevelUp uiLevelUP;
+    public Result uiResult;
+    public GameObject enemyCleaner;
 
     private void Awake()
     {
@@ -39,18 +42,63 @@ public class GameManager : MonoBehaviour
         if (GameTime > MaxGameTime)
         {
             GameTime = MaxGameTime;
+            GameVictory();
         }
     }
 
-    private void Start()
+    public void GameStart()
     {
         health = maxHealth;
-        //임시스크립트
-        uiLevelUP.Select(1);
+        
+        uiLevelUP.Select(0); //임시스크립트 0번째 무기 지급
+        isLive = true;
+        Resume();
+    }
+
+    public void GameOver()
+    {
+        StartCoroutine(GameOverRoutine());
+    }
+
+    IEnumerator GameOverRoutine() // 게임오버 딜레이를 위한 코루틴
+    {
+        isLive = false;
+
+        yield return new WaitForSeconds(0.5f); // 에니메이션 딜레이 기다림
+
+        uiResult.gameObject.SetActive(true);
+        uiResult.Lose();
+        Stop();
+    }
+
+    public void GameVictory()
+    {
+        StartCoroutine(GameVictoryRoutine());
+    }
+
+    IEnumerator GameVictoryRoutine() // 게임승리 딜레이를 위한 코루틴
+    {
+        isLive = false;
+        enemyCleaner.SetActive(true);
+
+        yield return new WaitForSeconds(0.5f); // 에니메이션 딜레이 기다림
+
+        uiResult.gameObject.SetActive(true);
+        uiResult.Win();
+        Stop();
+    }
+
+
+    public void GameRetry()
+    {
+        SceneManager.LoadScene(0); //신 0번째 로드
     }
 
     public void GetExp()
     {
+        if(!isLive) // 끝날떄 경험치 X
+            return;
+
         Exp++;
         if (Exp == NextExp[Mathf.Min(level,NextExp.Length-1)])
         {

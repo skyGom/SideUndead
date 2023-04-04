@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     public float MaxGameTime;
 
     [Header("# Player Info")]
+    public int playerId;
     public float health;
     public float maxHealth = 100;
     public int level;
@@ -46,12 +47,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void GameStart()
+    public void GameStart(int id)
     {
+        playerId = id;
         health = maxHealth;
-        
-        uiLevelUP.Select(0); //임시스크립트 0번째 무기 지급
-        isLive = true;
+
+        Player.gameObject.SetActive(true);
+        uiLevelUP.Select(playerId % 2); //무기 갯수만큼 나눔
         Resume();
     }
 

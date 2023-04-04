@@ -46,8 +46,8 @@ public class Weapon : MonoBehaviour
 
         //property set
         Id = data.itemId;
-        Damage = data.baseDamage;
-        Count = data.baseCount;
+        Damage = data.baseDamage * Character.Damage;
+        Count = data.baseCount + Character.Count;
 
         for(int index=0; index < GameManager.instance.pool.Prefabs.Length; index++){
             if(data.projectile == GameManager.instance.pool.Prefabs[index]){
@@ -59,11 +59,11 @@ public class Weapon : MonoBehaviour
         switch (Id)
         {
             case 0:
-                Speed = 150;
+                Speed = 150 * Character.WeaponSpeed;
                 Batch();
                 break;
             default:
-                Speed = 0.4f;
+                Speed = 0.5f * Character.WeaponRate;
                 break;
         }
         //Hand Set
@@ -103,7 +103,7 @@ public class Weapon : MonoBehaviour
 
     public void LevelUp(float damage, int count)
     {
-        this.Damage = damage;
+        this.Damage = damage * Character.Damage;
         this.Count += count;
 
         if (Id == 0)

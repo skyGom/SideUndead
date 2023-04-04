@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     public float speed = 3f;
     public Scanner Scanner;
     public Hand[] hands;
+    public RuntimeAnimatorController[] animCon;
 
     [HideInInspector]public Vector2 inputVec;
     private Rigidbody2D rigid;
@@ -27,10 +28,10 @@ public class Player : MonoBehaviour
         hands = GetComponentsInChildren<Hand>(true);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
-        
+        speed *= Character.Speed;
+        animator.runtimeAnimatorController = animCon[GameManager.instance.playerId];
     }
 
     // Update is called once per frame

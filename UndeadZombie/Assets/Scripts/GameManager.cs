@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
         Player.gameObject.SetActive(true);
         uiLevelUP.Select(playerId % 2); //무기 갯수만큼 나눔
         Resume();
+
+        AudioManager.instance.PlayBgm(true);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Select);
     }
 
     public void GameOver()
@@ -71,6 +74,9 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Lose();
         Stop();
+                
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Lose);
     }
 
     public void GameVictory()
@@ -88,6 +94,10 @@ public class GameManager : MonoBehaviour
         uiResult.gameObject.SetActive(true);
         uiResult.Win();
         Stop();
+                
+                
+        AudioManager.instance.PlayBgm(false);
+        AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
     }
 
 

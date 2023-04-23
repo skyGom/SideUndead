@@ -95,7 +95,6 @@ public class GameManager : MonoBehaviour
         uiResult.Win();
         Stop();
                 
-                
         AudioManager.instance.PlayBgm(false);
         AudioManager.instance.PlaySfx(AudioManager.Sfx.Win);
     }

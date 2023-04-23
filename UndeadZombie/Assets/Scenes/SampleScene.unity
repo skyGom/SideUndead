@@ -23434,6 +23434,7 @@ MonoBehaviour:
     health: 15
     speed: 2.4
     spawnTime: 0.2
+  levelTime: 0
 --- !u!1 &1408932116
 GameObject:
   m_ObjectHideFlags: 0
@@ -26120,7 +26121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLive: 0
   GameTime: 0
-  MaxGameTime: 200
+  MaxGameTime: 300
   playerId: 0
   health: 0
   maxHealth: 100

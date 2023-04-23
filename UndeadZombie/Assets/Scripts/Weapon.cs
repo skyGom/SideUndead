@@ -97,7 +97,7 @@ public class Weapon : MonoBehaviour
             bullet.Rotate(rotVec);
             bullet.Translate(bullet.up * 1.5f, Space.World);
 
-            bullet.GetComponent<Bullet>().Init(Damage, -1, Vector3.zero);
+            bullet.GetComponent<Bullet>().Init(Damage, -100, Vector3.zero); //-100 inf num
         }
     }
 
